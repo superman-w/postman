@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "ef72ec25-31ae-475d-9d7a-2e0cd33759de",
+		"name": "尾号限行",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "有效",
+			"item": [
+				{
+					"name": "支持城市列表",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// //  随机数   1-5的随机数据\r",
+									"// function GetRandomNum(Min, Max) {\r",
+									"//     var Range = Max - Min;\r",
+									"//     var Rand = Math.random();\r",
+									"//     return(Min + Math.round(Rand * Range))};\r",
+									"// var num = GetRandomNum(1, 5);\r",
+									"\r",
+									"// pm.globals.set(\"num1\", num);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// // 获取接口1的响应数据\r",
+									"// var abc = pm.response.json();\r",
+									"// // 将需要的数据设置成变量\r",
+									"// num=pm.globals.get(\"num1\");\r",
+									"// // 设置成局部变量\r",
+									"// pm.environment.set(\"cityid_1\", abc[\"result\"][num][\"city\"]);\r",
+									"// // 设置成全局变量\r",
+									"// pm.globals.set(\"cityid_2\", abc[\"result\"][num][\"city\"]);\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"查询成功\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://v.juhe.cn/xianxing/citys?key={{key_3}}&dtype=json",
+							"protocol": "http",
+							"host": [
+								"v",
+								"juhe",
+								"cn"
+							],
+							"path": [
+								"xianxing",
+								"citys"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key_3}}"
+								},
+								{
+									"key": "dtype",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "尾号限行查询get",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// 前置条件\r",
+									"// 语言：JavaScript语言"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 断言（判断预期结果和实际结果是否一致）  语言：JavaScript语言\r",
+									"\r",
+									"// 判断响应状态码是否等于预期结果\r",
+									"pm.test(\"断言通过的提示语\", function () {\r",
+									"    pm.response.to.have.status(200);    // 括号里填写预期结果\r",
+									"});\r",
+									"\r",
+									"// 判断响应实体中是否包含预期的字符串\r",
+									"pm.test(\"提示语\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"北京\");\r",
+									"    pm.expect(pm.response.text()).to.include(\"查询成功\");\r",
+									"});\r",
+									"// 扩展知识 1、可以把多个断言写到一个里面   2、写不包含to.not.include\r",
+									"\r",
+									"// 判断响应数据中某个键的值是否等于预期结果\r",
+									"// （只适用于响应数据是json格式的）\r",
+									"pm.test(\"Your test name\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData[\"result\"][\"cityname\"]).to.eql(\"北京\");\r",
+									"    pm.expect(jsonData.result.des[0].place).to.eql(\"限行范围为五环路以内（不包括五环路主路）\")\r",
+									"});\r",
+									"\r",
+									"// 判断响应数据是否等于预期结果\r",
+									"// (响应数据是字符串的时候才能用)\r",
+									"// pm.test(\"Body is correct\", function () {\r",
+									"//     pm.response.to.have.body(\"response_body_string\");\r",
+									"// });\r",
+									"\r",
+									"// 判断响应头部域中是否包含预期的字段\r",
+									"pm.test(\"Content-Type is present\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"});\r",
+									"\r",
+									"// 判断响应时间是否小于预期时间\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"// 判断响应状态码是否是预期结果中的某一个\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202, 301, 304]);\r",
+									"});\r",
+									"\r",
+									"// 判断响应状态码的解释是否等于预期结果\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_1}}/xianxing/index?key={{key_3}}&city={{cityid_3}}&type=1&dtype=json",
+							"host": [
+								"{{host_1}}"
+							],
+							"path": [
+								"xianxing",
+								"index"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key_3}}"
+								},
+								{
+									"key": "city",
+									"value": "{{cityid_3}}"
+								},
+								{
+									"key": "type",
+									"value": "1"
+								},
+								{
+									"key": "dtype",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "无效",
+			"item": [
+				{
+					"name": "支持城市列表 Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"查询成功\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://v.juhe.cn/xianxing/citys?key={{key_4}}&dtype=json",
+							"protocol": "http",
+							"host": [
+								"v",
+								"juhe",
+								"cn"
+							],
+							"path": [
+								"xianxing",
+								"citys"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key_4}}"
+								},
+								{
+									"key": "dtype",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "尾号限行查询get Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"\r",
+									"// 判断响应实体中是否包含预期的字符串\r",
+									"pm.test(\"提示语\", function () {\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"北京\");\r",
+									"    pm.expect(pm.response.text()).to.not.include(\"查询成功\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host_1}}/xianxing/index?key={{key_4}}&city={{cityid_4}}&type=1&dtype=json",
+							"host": [
+								"{{host_1}}"
+							],
+							"path": [
+								"xianxing",
+								"index"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key_4}}"
+								},
+								{
+									"key": "city",
+									"value": "{{cityid_4}}"
+								},
+								{
+									"key": "type",
+									"value": "1"
+								},
+								{
+									"key": "dtype",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
